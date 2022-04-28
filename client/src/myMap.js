@@ -7,17 +7,29 @@ import MapGL from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import Geocoder from "react-map-gl-geocoder";
-import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 export default function MyMap(props) {
-    const [location, setLocation] = useState({
-        longitude: 13.383309,
+    const [viewport, setViewport] = useState({
         latitude: 52.516806,
+        longitude: 13.383309,
         zoom: 9,
     });
+    const mapRef = useRef();
+    const handleViewportChange = useCallback(
+        (newViewport) => setViewport(newViewport),
+        []
+    );
 
-    console.log(location);
+    // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
+    const handleGeocoderViewportChange = useCallback((newViewport) => {
+        const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+        return handleViewportChange({
+            ...newViewport,
+            ...geocoderDefaultOverrides,
+        });
+    }, []);
 
     if (!props.loggedInUser) {
         return (
@@ -32,14 +44,25 @@ export default function MyMap(props) {
                         <h1>Your are not logged in 🚒</h1>
                         <div className="map-container">
                             <MapGL
-                                {...location}
-                                onMove={(e) => setLocation(e.viewState)}
+                                ref={mapRef}
+                                {...viewport}
                                 width="100%"
                                 height="100%"
+                                onViewportChange={handleViewportChange}
                                 mapStyle="mapbox://styles/mapbox/streets-v9"
                                 // eslint-disable-next-line no-undef
-                                mapboxAccessToken={MAPBOX_API_KEY}
-                            />
+                                mapboxApiAccessToken={MAPBOX_API_KEY}
+                            >
+                                <Geocoder
+                                    mapRef={mapRef}
+                                    onViewportChange={
+                                        handleGeocoderViewportChange
+                                    }
+                                    // eslint-disable-next-line no-undef
+                                    mapboxApiAccessToken={MAPBOX_API_KEY}
+                                    position="top-left"
+                                />
+                            </MapGL>
                         </div>
                     </Route>
                 </BrowserRouter>
