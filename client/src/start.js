@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom";
-import Welcome from "./welcome";
-import App from "./app";
+import Map from "./map";
 
 import { createStore, applyMiddleware } from "redux";
 import * as immutableState from "redux-immutable-state-invariant";
@@ -16,21 +15,20 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(immutableState.default()))
 );
 
-fetch("/user/id.json")
+fetch("/api/user/id")
     .then((response) => response.json())
     .then((data) => {
-        //init for the websocket 
-        //+ needs also the store of redux!
         init(store);
 
-        //two single pages! -> one for logged out
         if (!data.userId) {
-            ReactDOM.render(<Welcome />, document.querySelector("main"));
+            ReactDOM.render(
+                <Map loggedInUser={false} />,
+                document.querySelector("main")
+            );
         } else {
-            //and one for logged in users
             ReactDOM.render(
                 <Provider store={store}>
-                    <App />
+                    <Map loggedInUser={true} />
                 </Provider>,
                 document.querySelector("main")
             );

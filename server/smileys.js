@@ -23,6 +23,11 @@ exports.smileys = [
     "🦁",
     "⛑",
     "🐼",
+    "🐹",
+    "🙀",
+    "🌈",
+    "🌳",
+    "🏝",
 ];
 
 exports.randomIntFromInterval = (min, max) => {

@@ -1,12 +1,8 @@
 import { combineReducers } from "redux";
-import friendsWannabeesReducer from "./friends-wannabees/slice.js";
-import messagesReducer from "./messages/slice.js";
-import privateMessagesReducer from "./private-messages/slice.js";
+//import smthReducer from "./smth/slice.js";
 
 const rootReducer = combineReducers({
-    friendsWannabees: friendsWannabeesReducer,
-    messages: messagesReducer,
-    privateMessages: privateMessagesReducer,
+    //smth: smthReducer,
 });
 
 export default rootReducer;
