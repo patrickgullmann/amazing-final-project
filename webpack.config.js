@@ -2,6 +2,9 @@ const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const webpack = require("webpack");
+const { MAPBOX_KEY } = require("./server/secrets.json");
+
 module.exports = () => ({
     entry: [
         "@babel/polyfill",
@@ -33,7 +36,8 @@ module.exports = () => ({
             {
                 test: /\.js$/,
                 loader: "babel-loader",
-            }, {
+            },
+            {
                 test: /\.css$/i,
                 use: [
                     MiniCssExtractPlugin.loader,
@@ -55,7 +59,12 @@ module.exports = () => ({
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
     },
-    plugins: [new MiniCssExtractPlugin({
-        filename: 'bundle.css',
-    })],
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "bundle.css",
+        }),
+        new webpack.DefinePlugin({
+            MAPBOX_API_KEY: JSON.stringify(MAPBOX_KEY),
+        }),
+    ],
 });

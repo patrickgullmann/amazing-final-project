@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import Map from "./map";
+import MyMap from "./myMap";
 
 import { createStore, applyMiddleware } from "redux";
 import * as immutableState from "redux-immutable-state-invariant";
@@ -22,13 +22,13 @@ fetch("/api/user/id")
 
         if (!data.userId) {
             ReactDOM.render(
-                <Map loggedInUser={false} />,
+                <MyMap loggedInUser={false} />,
                 document.querySelector("main")
             );
         } else {
             ReactDOM.render(
                 <Provider store={store}>
-                    <Map loggedInUser={true} />
+                    <MyMap loggedInUser={true} />
                 </Provider>,
                 document.querySelector("main")
             );
