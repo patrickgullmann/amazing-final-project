@@ -6,6 +6,9 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
+import { useDispatch, useSelector } from "react-redux";
+import { receiveMarkers } from "./redux/markers/slice.js";
+
 export default function Map() {
     const [location, setLocation] = useState({
         longitude: 13.383309,
@@ -13,7 +16,9 @@ export default function Map() {
         zoom: 9,
     });
 
-    const [markers, setMarkers] = useState([]);
+    //const [markers, setMarkers] = useState([]);
+    const dispatch = useDispatch();
+    const markers = useSelector((state) => state.markers && state.markers);
 
     const mapRef = useRef();
     const geocoderContainerRef = useRef();
@@ -38,7 +43,7 @@ export default function Map() {
             });
             const data = await res.json();
             console.log(data);
-            setMarkers([...markers, data]);
+            //setMarkers([...markers, data]);
         })();
     };
 
@@ -55,7 +60,8 @@ export default function Map() {
             const res = await fetch("/api/setup-markers");
             const data = await res.json();
             //console.log(data);
-            setMarkers(data);
+            //setMarkers(data);
+            dispatch(receiveMarkers(data));
         })();
     }, []);
 

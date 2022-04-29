@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-//import smthReducer from "./smth/slice.js";
+import markersReducer from "./markers/slice.js";
 
 const rootReducer = combineReducers({
-    //smth: smthReducer,
+    markers: markersReducer,
 });
 
 export default rootReducer;
