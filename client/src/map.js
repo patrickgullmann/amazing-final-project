@@ -7,7 +7,7 @@ import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import { useDispatch, useSelector } from "react-redux";
-import { receiveMarkers } from "./redux/markers/slice.js";
+import { receiveMarkers, addMarker } from "./redux/markers/slice.js";
 
 export default function Map() {
     const [location, setLocation] = useState({
@@ -42,8 +42,9 @@ export default function Map() {
                 }),
             });
             const data = await res.json();
-            console.log(data);
+            //console.log(data);
             //setMarkers([...markers, data]);
+            dispatch(addMarker(data));
         })();
     };
 
@@ -82,22 +83,21 @@ export default function Map() {
                 mapboxApiAccessToken={MAPBOX_API_KEY}
                 onClick={clickHandlerNewMarker}
             >
-                {markers &&
-                    markers.map((marker) => (
-                        <Marker
-                            key={marker.id}
-                            longitude={parseFloat(marker.longitude)}
-                            latitude={parseFloat(marker.latitude)}
-                            anchor="bottom"
-                            onClick={() => clickHandlerShowPopup(marker.id)}
-                        >
-                            <img
-                                className="markerImg"
-                                height="40px"
-                                src="/images/pin.png"
-                            />
-                        </Marker>
-                    ))}
+                {markers.map((marker) => (
+                    <Marker
+                        key={marker.id}
+                        longitude={parseFloat(marker.longitude)}
+                        latitude={parseFloat(marker.latitude)}
+                        anchor="bottom"
+                        onClick={() => clickHandlerShowPopup(marker.id)}
+                    >
+                        <img
+                            className="markerImg"
+                            height="40px"
+                            src="/images/pin.png"
+                        />
+                    </Marker>
+                ))}
                 <Geocoder
                     mapRef={mapRef}
                     containerRef={geocoderContainerRef}

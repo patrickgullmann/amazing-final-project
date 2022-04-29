@@ -1,6 +1,8 @@
 export default function markersReducer(markers = [], action) {
     if (action.type === "markers/received") {
         markers = action.payload.markers;
+    } else if (action.type === "marker/added") {
+        markers = [...markers, action.payload.marker];
     }
     return markers;
 }
@@ -12,9 +14,9 @@ export function receiveMarkers(markers) {
     };
 }
 
-// export function makeFriend(otherUserId) {
-//     return {
-//         type: "friends-wannabees/accepted",
-//         payload: { otherUserId },
-//     };
-// }
+export function addMarker(marker) {
+    return {
+        type: "marker/added",
+        payload: { marker },
+    };
+}
