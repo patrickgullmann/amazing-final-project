@@ -8,7 +8,6 @@ const path = require("path");
 const cookieSession = require("cookie-session");
 const secrets =
     process.env.SESSION_SECRET || require("./secrets").COOKIE_SECRET;
-const { hash, compare } = require("./auth");
 const db = require("./db");
 
 const { uploader } = require("./upload");
@@ -45,10 +44,24 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 /* ------------------ NON-SETUP PART ------------------------------------------------------------ */
 
-app.get("/api/user/id", function (req, res) {
-    res.json({
-        userId: req.session.userId,
-    });
+app.get("/api/setup-markers", async (req, res) => {
+    const { rows } = await db.getSetupMarkers();
+    //console.log(rows);
+    res.json(rows);
+});
+
+app.post("/api/new-marker", async (req, res) => {
+    const { name, longitude, latitude } = req.body;
+    const { rows } = await db.addMarker(name, longitude, latitude);
+    //console.log(rows[0]);
+    res.json(rows[0]);
+});
+
+app.get("/api/get-marker-info/:markerId", async (req, res) => {
+    const markerId = req.params.markerId;
+    const { rows } = await db.getMarkerInfo(markerId);
+    console.log(rows[0]);
+    res.json(rows[0]);
 });
 
 /* ------------------ ALL ROUTES BEFORE HERE AND SOCKETS PART ------------------------------------ */

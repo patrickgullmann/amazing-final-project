@@ -1,32 +1,23 @@
-import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Map from "./map";
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {};
-    }
+import { useState, useEffect, useRef } from "react";
 
-    componentDidMount() {}
-
-    render() {
-        return (
-            <>
-                <BrowserRouter>
-                    <header>
-                        <nav>
-                            <Link to="/">Home</Link>
-                        </nav>
-                    </header>
-
-                    <>
-                        <Route exact path="/">
-                            <h1>Hello</h1>
-                        </Route>
-                    </>
-                </BrowserRouter>
-            </>
-        );
-    }
+export default function App() {
+    return (
+        <>
+            <BrowserRouter>
+                <header>
+                    <nav>
+                        <Link to="/">Home Not Logged In</Link>
+                    </nav>
+                </header>
+                <Route exact path="/">
+                    <h1>Your are not logged in 🚒</h1>
+                    <Map />
+                </Route>
+            </BrowserRouter>
+        </>
+    );
 }

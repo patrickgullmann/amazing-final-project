@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import MyMap from "./myMap";
+import App from "./app";
 
 import { createStore, applyMiddleware } from "redux";
 import * as immutableState from "redux-immutable-state-invariant";
@@ -15,22 +15,11 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(immutableState.default()))
 );
 
-fetch("/api/user/id")
-    .then((response) => response.json())
-    .then((data) => {
-        init(store);
+init(store);
 
-        if (!data.userId) {
-            ReactDOM.render(
-                <MyMap loggedInUser={false} />,
-                document.querySelector("main")
-            );
-        } else {
-            ReactDOM.render(
-                <Provider store={store}>
-                    <MyMap loggedInUser={true} />
-                </Provider>,
-                document.querySelector("main")
-            );
-        }
-    });
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.querySelector("main")
+);
