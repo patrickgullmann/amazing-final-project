@@ -57,6 +57,21 @@ app.post("/api/new-marker", async (req, res) => {
     res.json(rows[0]);
 });
 
+app.post(
+    "/api/new-marker-final",
+    uploader.single("file"),
+    s3.upload,
+    async (req, res) => {
+        console.log("req.body: ", req.body); //get this in addition
+        console.log("req.file: ", req.file); //this we get from multer!
+
+        //concatenate ths full url before put in db
+        const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
+        console.log(url);
+        console.log(req.body.location);
+    }
+);
+
 app.get("/api/get-marker-info/:markerId", async (req, res) => {
     const markerId = req.params.markerId;
     const { rows } = await db.getMarkerInfo(markerId);

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-import MapGL, { Marker } from "react-map-gl";
+import MapGL, { Marker, GeolocateControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 import Geocoder from "react-map-gl-geocoder";
@@ -8,6 +8,8 @@ import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { receiveMarkers, addMarker } from "./redux/markers/slice.js";
+import { showPopupForNewMarker } from "./redux/popup-new-marker/slice.js";
+import { addLocationForNewMarker } from "./redux/location-new-marker/slice.js";
 
 export default function Map() {
     const [location, setLocation] = useState({
@@ -16,7 +18,6 @@ export default function Map() {
         zoom: 9,
     });
 
-    //const [markers, setMarkers] = useState([]);
     const dispatch = useDispatch();
     const markers = useSelector((state) => state.markers && state.markers);
 
@@ -28,7 +29,16 @@ export default function Map() {
         return setLocation(newLocation);
     };
 
-    const clickHandlerNewMarker = (e) => {
+    const clickHandlerShowPopupForNewMarker = (e) => {
+        dispatch(showPopupForNewMarker(true));
+        dispatch(
+            addLocationForNewMarker({
+                longitude: e.lngLat[0],
+                latitude: e.lngLat[1],
+            })
+        );
+        
+        // ---------------------------- in popupNewMArker stattfinden lassen!
         (async () => {
             const res = await fetch("/api/new-marker", {
                 method: "POST",
@@ -43,12 +53,11 @@ export default function Map() {
             });
             const data = await res.json();
             //console.log(data);
-            //setMarkers([...markers, data]);
             dispatch(addMarker(data));
         })();
     };
 
-    const clickHandlerShowPopup = (markerId) => {
+    const clickHandlerShowPopupWithInfo = (markerId) => {
         (async () => {
             const res = await fetch(`/api/get-marker-info/${markerId}`);
             const data = await res.json();
@@ -61,7 +70,6 @@ export default function Map() {
             const res = await fetch("/api/setup-markers");
             const data = await res.json();
             //console.log(data);
-            //setMarkers(data);
             dispatch(receiveMarkers(data));
         })();
     }, []);
@@ -81,15 +89,22 @@ export default function Map() {
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 // eslint-disable-next-line no-undef
                 mapboxApiAccessToken={MAPBOX_API_KEY}
-                onClick={clickHandlerNewMarker}
+                onClick={clickHandlerShowPopupForNewMarker}
             >
+                <GeolocateControl
+                    style={{
+                        top: 30,
+                        right: 20,
+                        position: "absolute",
+                    }}
+                />
                 {markers.map((marker) => (
                     <Marker
                         key={marker.id}
                         longitude={parseFloat(marker.longitude)}
                         latitude={parseFloat(marker.latitude)}
                         anchor="bottom"
-                        onClick={() => clickHandlerShowPopup(marker.id)}
+                        onClick={() => clickHandlerShowPopupWithInfo(marker.id)}
                     >
                         <img
                             className="markerImg"
