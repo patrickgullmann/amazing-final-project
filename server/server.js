@@ -23,6 +23,8 @@ app.use(compression());
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
 const cookieSessionMiddleware = cookieSession({
     secret: secrets,
     maxAge: 1000 * 60 * 60 * 24 * 14,
@@ -50,33 +52,37 @@ app.get("/api/setup-markers", async (req, res) => {
     res.json(rows);
 });
 
-app.post("/api/new-marker", async (req, res) => {
-    const { name, longitude, latitude } = req.body;
-    const { rows } = await db.addMarker(name, longitude, latitude);
-    //console.log(rows[0]);
-    res.json(rows[0]);
-});
-
 app.post(
-    "/api/new-marker-final",
+    "/api/new-marker",
     uploader.single("file"),
     s3.upload,
     async (req, res) => {
-        console.log("req.body: ", req.body); //get this in addition
-        console.log("req.file: ", req.file); //this we get from multer!
-
-        //concatenate ths full url before put in db
+        const { title, description } = req.body;
+        const { longitude, latitude } = JSON.parse(req.body.location);
         const url = "https://s3.amazonaws.com/spicedling/" + req.file.filename;
-        console.log(url);
-        console.log(req.body.location);
+        const counter = 1;
+
+        const { rows } = await db.addMarker(
+            title,
+            description,
+            longitude,
+            latitude,
+            url,
+            counter
+        );
+        //console.log(rows[0]);
+        res.json(rows[0]);
     }
 );
 
-app.get("/api/get-marker-info/:markerId", async (req, res) => {
+app.get("/api/increase-count-for-marker/:markerId", async (req, res) => {
     const markerId = req.params.markerId;
-    const { rows } = await db.getMarkerInfo(markerId);
-    console.log(rows[0]);
-    res.json(rows[0]);
+    const { rows } = await db.getMarkerCount(markerId);
+    const { rows: newRows } = await db.increaseMarkerCount(
+        markerId,
+        rows[0].counter + 1
+    );
+    res.json(newRows[0]);
 });
 
 /* ------------------ ALL ROUTES BEFORE HERE AND SOCKETS PART ------------------------------------ */

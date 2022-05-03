@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { showPopupForNewMarker } from "./redux/popup-new-marker/slice.js";
+import { addMarker } from "./redux/markers/slice.js";
 
 export default function PopupNewMarker() {
     const [title, setTitle] = useState("");
@@ -15,22 +16,28 @@ export default function PopupNewMarker() {
         (state) => state.locationNewMarker && state.locationNewMarker
     );
 
-    console.log(title, description, image, location);
-
+    // --------- NEED TO HANDLE IF NOBODY UPLOADS AN IMAGE ...... ---------------
     const sumbmitPotentialIncidentData = () => {
         const fd = new FormData();
         fd.append("title", title);
         fd.append("description", description);
-        fd.append("location", location);
-        fd.append("file", image);
+        fd.append("location", JSON.stringify(location));
+        fd.append("file", image || "/images/defaultPicture.png");
 
-        fetch("/api/new-marker-final", {
+        //and here test if string or not and
+        //two routes in server for one with (default pic) and one without
+        fetch("/api/new-marker", {
             method: "POST",
             body: fd,
         })
             .then((res) => res.json())
-            .then((response) => {
-                //csl
+            .then((data) => {
+                console.log(data);
+                dispatch(addMarker(data));
+                setTitle("");
+                setDescription("");
+                setImage(null);
+                dispatch(showPopupForNewMarker(false));
             })
             .catch((err) => {
                 console.log("err sending to server: ", err);

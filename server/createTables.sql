@@ -2,9 +2,12 @@ DROP TABLE IF EXISTS potential_incident_places;
 
  CREATE TABLE potential_incident_places(
     id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    title VARCHAR NOT NULL,
+    description VARCHAR NOT NULL,
+    url VARCHAR(255),
     longitude DECIMAL NOT NULL,
     latitude DECIMAL NOT NULL,
+    counter INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
@@ -17,7 +20,6 @@ DROP TABLE IF EXISTS potential_incident_places;
 --  );
 
  
-INSERT INTO potential_incident_places (name, longitude, latitude) VALUES ('Place 1', 13.383309, 52.516806 );
-INSERT INTO potential_incident_places (name, longitude, latitude) VALUES ('Place 2', 13.383309, 52.616806 );
-INSERT INTO potential_incident_places (name, longitude, latitude) VALUES ('Place 3', 13.483309, 52.616806 );
+INSERT INTO potential_incident_places (title, description, longitude, latitude, counter) VALUES ('Kotttttiiii', 'Wow Kotti ist echt beim rechts-abbiegen', 13.583309, 52.516806, 6);
+
 
