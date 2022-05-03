@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { showPopupForMarkerInfo } from "./redux/popup-marker-info/slice.js";
 import { updateMarkerBcOfCounter } from "./redux/markers/slice.js";
+import Weather from "./weather";
 
 export default function PopupNewMarker() {
     const dispatch = useDispatch();
@@ -71,7 +72,8 @@ export default function PopupNewMarker() {
                     />
                 </figure>
                 <h3>Title: {markerInfo[0].title}</h3>
-                <p>Decsiption: {markerInfo[0].description}</p>
+                <p>Description: {markerInfo[0].description}</p>
+                <Weather />
                 <p>
                     Dangerousness: {dangerousness} | Count:
                     {markerInfo[0].counter}

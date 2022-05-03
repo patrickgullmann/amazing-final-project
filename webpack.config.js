@@ -3,7 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const webpack = require("webpack");
-const { MAPBOX_KEY } = require("./server/secrets.json");
+const { MAPBOX_KEY, WEATHER_KEY } = require("./server/secrets.json");
 
 module.exports = () => ({
     entry: [
@@ -65,6 +65,7 @@ module.exports = () => ({
         }),
         new webpack.DefinePlugin({
             MAPBOX_API_KEY: JSON.stringify(MAPBOX_KEY),
+            WEATHER_API_KEY: JSON.stringify(WEATHER_KEY),
         }),
     ],
 });
