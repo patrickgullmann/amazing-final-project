@@ -55,37 +55,50 @@ export default function PopupNewMarker() {
         return <></>;
     }
     return (
-        <div className="modal-uploader">
-            <div className="modal-content-uploader">
-                <span
-                    className="close-uploader"
-                    onClick={clickHandlerClosePopupForNewMarker}
-                >
-                    &times;
-                </span>
-                <h1> Please give us some info of the INCIDENT </h1>
+        <div className="modal-uploader-add">
+            <div className="modal-content-uploader-add">
+                <h1 className="modal-content-uploader-add-h1">
+                    Add another potential incident place
+                </h1>
+                <h3>Where is the place located?</h3>
                 <input
+                    className="modal-content-uploader-add-input-title"
                     value={title}
-                    placeholder="Drop a title ..."
+                    placeholder="Leave a title ... "
                     onChange={(e) => setTitle(e.target.value)}
                     name="title"
                     type="text"
                 ></input>
-                <h3>How about a description? </h3>
+                <h3>
+                    Can you describe the potential incident place in more
+                    detail?
+                </h3>
                 <textarea
+                    className="modal-content-uploader-add-textarea-description"
                     value={description}
-                    placeholder="Drop a description of the potential incident place ... "
+                    placeholder="Drop a short description of the potential incident place ... "
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <h3>You can also upload a picture :) </h3>
+                <h3> 🔽 You can also upload a picture 🔽 </h3>
                 <input
+                    className="modal-content-uploader-add-input-picture"
                     onChange={(e) => setImage(e.target.files[0])}
                     type="file"
                     name="file"
                     accept="image/*"
                 ></input>
-                <h3> And finally submit </h3>
-                <button onClick={sumbmitPotentialIncidentData}>Submit!</button>
+                <button
+                    className="button-28"
+                    onClick={sumbmitPotentialIncidentData}
+                >
+                    Submit!
+                </button>
+                <button
+                    className="modal-content-uploader-add-button-close"
+                    onClick={clickHandlerClosePopupForNewMarker}
+                >
+                    Close
+                </button>
             </div>
         </div>
     );

@@ -57,13 +57,6 @@ export default function PopupNewMarker() {
     return (
         <div className="modal-uploader">
             <div className="modal-content-uploader">
-                <span
-                    className="close-uploader"
-                    onClick={clickHandlerClosePopupForMarkerInfo}
-                >
-                    &times;
-                </span>
-                <h1> Here is the specific marker info </h1>
                 <figure className="figureIncident">
                     <img
                         className="imgIncident"
@@ -71,19 +64,40 @@ export default function PopupNewMarker() {
                         height="200px"
                     />
                 </figure>
-                <h3>Title: {markerInfo[0].title}</h3>
-                <p>Description: {markerInfo[0].description}</p>
-                <Weather />
-                <p>
-                    Dangerousness: {dangerousness} | Count:
-                    {markerInfo[0].counter}
-                </p>
-                {!voted && (
-                    <button onClick={clickHandlerIncreaseCount}>
-                        Increase Awareness
-                    </button>
-                )}
-                {voted && <p>Thanks for voting!</p>}
+                <div className="modal-content-container-text">
+                    <div>
+                        <h3>{markerInfo[0].title}</h3>
+                        <p className="desc">
+                            Description: {markerInfo[0].description}
+                        </p>
+                    </div>
+                    <div>
+                        <Weather
+                            latitude={markerInfo[0].latitude}
+                            longitude={markerInfo[0].longitude}
+                        />
+                        <p className="dang">
+                            Dangerousness: {dangerousness} |{" "}
+                            {markerInfo[0].counter} people marked this place
+                        </p>
+                        {!voted && (
+                            <button
+                                className="button-28"
+                                id="button-increase"
+                                onClick={clickHandlerIncreaseCount}
+                            >
+                                Increase Awareness
+                            </button>
+                        )}
+                        {voted && <p>Thanks for voting!</p>}
+                    </div>
+                </div>
+                <button
+                    className="modal-content-uploader-add-button-close"
+                    onClick={clickHandlerClosePopupForMarkerInfo}
+                >
+                    Close
+                </button>
             </div>
         </div>
     );

@@ -20,6 +20,6 @@ DROP TABLE IF EXISTS potential_incident_places;
 --  );
 
  
-INSERT INTO potential_incident_places (title, description, longitude, latitude, counter) VALUES ('Kotttttiiii', 'Wow Kotti ist echt beim rechts-abbiegen', 13.583309, 52.516806, 6);
+INSERT INTO potential_incident_places (title, description, longitude, latitude, counter) VALUES ('Kotttttiiii', 'Wow Kotti ist echt beim rechts-abbiegen', 13.579002969723604, 52.52641534940744, 6);
 
 
