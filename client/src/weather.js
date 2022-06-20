@@ -28,6 +28,7 @@ export default function Weather(props) {
                 .then((response) => response.json())
                 .then((jsonData) => {
                     console.log(jsonData);
+                    //find the data of today and set it!
                     //setTmp //setCloud
                 })
                 .catch((err) => {
