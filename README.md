@@ -20,7 +20,7 @@ Biketastic allows users to mark new and rate existing dangerous locations for cy
 ### Inspecting Existing Pins 
 
 -   Clicking on a pin brings up the Pin Component (Modal), where users can see the added information of the pin as well as current weather data of the location.
--   The current weather data is presented by fetchgin Stormglass.io weather API.
+-   The current weather data is presented by fetching Stormglass.io weather API.
 
 ### Rating Places 
 
