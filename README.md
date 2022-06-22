@@ -14,7 +14,7 @@ Biketastic allows users to mark new and rate existing dangerous locations for cy
 ### Adding New Pins
 
 -   For marking new dangerous locations, users can click on any point on the map to add a new pin.
--   By clicking, the app opens the uploader component, where the user can add name, title, and description as well as might upload a picture.
+-   By clicking, the app opens the uploader component, where the user can add name, title, and description as well as might upload a picture. Information is stored in state using Redux.
 -   Upon completion of upload, a new pin gets added to the map.
 
 ### Inspecting Existing Pins 
