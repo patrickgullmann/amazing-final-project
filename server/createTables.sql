@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS potential_incident_places;
 --     comment VARCHAR NOT NULL,
 --     ggf. rating or times clicked!
 --     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--     
 --  );
 
  
